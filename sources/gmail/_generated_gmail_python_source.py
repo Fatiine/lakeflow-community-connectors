@@ -215,6 +215,46 @@ def register_lakeflow_source(spark):
     # sources/gmail/gmail.py
     ########################################################
 
+    Gmail Connector for Lakeflow Community Connectors.
+
+    This connector implements the LakeflowConnect interface to read data from Gmail API.
+    Provides 100% coverage of Gmail API resources with incremental sync using historyId.
+
+    Supported Tables:
+    - messages: Email messages with full content
+    - threads: Email conversation threads
+    - labels: Gmail labels (system and user)
+    - drafts: Draft messages
+    - profile: User profile and mailbox stats
+    - settings: Account settings (IMAP, POP, vacation, language)
+    - filters: Email filter rules
+    - forwarding_addresses: Configured forwarding addresses
+    - send_as: Send-as email aliases
+    - delegates: Delegated access users
+
+    Features:
+    - OAuth 2.0 authentication with automatic token refresh
+    - Incremental sync via Gmail History API (CDC)
+    - Batch API support for efficient data retrieval
+    - Rate limit handling with exponential backoff
+    """
+
+    import json
+    import time
+    from typing import Dict, List, Iterator, Any, Generator
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    import requests
+    from pyspark.sql.types import (
+        StructType,
+        StructField,
+        StringType,
+        LongType,
+        BooleanType,
+        ArrayType,
+    )
+
+
     class LakeflowConnect:
         """Gmail connector implementing the LakeflowConnect interface with 100% API coverage."""
 
